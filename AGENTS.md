@@ -30,6 +30,6 @@
 The server follows Domain-Driven Design with 4 layers:
 
 - **domain/**: Business entities (Schema.Class), repository interfaces (Context.Tag), domain errors (Schema.TaggedError)
-- **application/**: Use cases and application services
+- **application/**: Use cases and application services (Context.Tag + Layer). Presentation layer should call application services, not repositories directly
 - **infrastructure/**: Database, repositories implementations, external services, migrations
-- **presentation/**: HTTP handlers, API routes, server configuration
+- **presentation/**: HTTP handlers, API routes, server configuration. Handlers should only depend on application services
