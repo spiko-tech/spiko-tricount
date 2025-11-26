@@ -16,16 +16,20 @@ echo ""
 echo "Installing dependencies..."
 pnpm install
 
-# Wait for PostgreSQL to be ready with timeout
+# Setup PostgreSQL database
+echo ""
+echo "Setting up PostgreSQL database..."
+sudo -u postgres createdb spiko_tricount 2>/dev/null || echo "  Database 'spiko_tricount' already exists"
+
+# Wait for PostgreSQL to be ready
 echo ""
 echo "Waiting for PostgreSQL to be ready..."
 MAX_ATTEMPTS=30
 ATTEMPT=0
-until nc -z postgres 5432 2>/dev/null; do
+until pg_isready -q; do
   ATTEMPT=$((ATTEMPT + 1))
   if [ $ATTEMPT -ge $MAX_ATTEMPTS ]; then
     echo "  Warning: PostgreSQL connection check timed out after ${MAX_ATTEMPTS} attempts"
-    echo "  The database may still be starting up. You can check with: nc -z postgres 5432"
     break
   fi
   echo "  PostgreSQL is not ready yet, waiting... (attempt $ATTEMPT/$MAX_ATTEMPTS)"
@@ -33,14 +37,6 @@ until nc -z postgres 5432 2>/dev/null; do
 done
 if [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
   echo "PostgreSQL is ready!"
-fi
-
-# Set DATABASE_HOST environment variable for the server
-# In Codespaces, PostgreSQL runs in a container named 'postgres'
-echo ""
-echo "Configuring environment..."
-if ! grep -q "DATABASE_HOST=postgres" ~/.bashrc 2>/dev/null; then
-  echo 'export DATABASE_HOST=postgres' >> ~/.bashrc
 fi
 
 # Display welcome message
@@ -60,7 +56,7 @@ echo "  Frontend: http://localhost:4200"
 echo "  Backend:  http://localhost:3000"
 echo ""
 echo "Database connection:"
-echo "  Host:     postgres"
+echo "  Host:     localhost"
 echo "  Port:     5432"
 echo "  Database: spiko_tricount"
 echo "  User:     postgres"

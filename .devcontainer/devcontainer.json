@@ -1,11 +1,12 @@
 {
   "name": "Spiko Tricount",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "24"
+    },
+    "ghcr.io/itsmechlark/features/postgresql:1": {
+      "version": "16"
     }
   },
   "customizations": {
@@ -15,7 +16,6 @@
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
         "nrwl.angular-console",
-        "ms-azuretools.vscode-docker",
         "eamodio.gitlens",
         "streetsidesoftware.code-spell-checker"
       ],
