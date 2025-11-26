@@ -49,6 +49,8 @@ const TricountFromRow = Schema.transformOrFail(
   }
 );
 
+const encodeTricount = Schema.encode(TricountFromRow);
+
 export const SqlTricountRepositoryLive = Layer.effect(
   TricountRepository,
   Effect.gen(function* () {
@@ -57,20 +59,18 @@ export const SqlTricountRepositoryLive = Layer.effect(
     const storeSchema = SqlSchema.single({
       Request: Schema.typeSchema(Tricount),
       Result: TricountFromRow,
-      execute: (tricount) => {
-        const description = Option.getOrNull(tricount.description);
-        const createdAt = DateTime.toDate(tricount.createdAt);
-        const updatedAt = DateTime.toDate(tricount.updatedAt);
-        return sql`
-          INSERT INTO tricounts (id, name, description, created_at, updated_at)
-          VALUES (${tricount.id}, ${tricount.name}, ${description}, ${createdAt}, ${updatedAt})
-          ON CONFLICT (id) DO UPDATE SET
-            name = EXCLUDED.name,
-            description = EXCLUDED.description,
-            updated_at = EXCLUDED.updated_at
-          RETURNING *
-        `;
-      },
+      execute: (tricount) =>
+        Effect.gen(function* () {
+          const row = yield* encodeTricount(tricount);
+          return sql`
+            INSERT INTO tricounts ${sql.insert(row)}
+            ON CONFLICT (id) DO UPDATE SET
+              name = EXCLUDED.name,
+              description = EXCLUDED.description,
+              updated_at = EXCLUDED.updated_at
+            RETURNING *
+          `;
+        }).pipe(Effect.flatten),
     });
 
     const store = (tricount: Tricount) =>
