@@ -2,100 +2,41 @@
   "name": "@spiko-tricount/server",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "nx": {
     "targets": {
+      "dev": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "tsx watch server/src/main.ts",
+          "cwd": "{workspaceRoot}"
+        }
+      },
       "build": {
-        "executor": "@nx/esbuild:esbuild",
+        "executor": "nx:run-commands",
         "outputs": [
-          "{options.outputPath}"
+          "{workspaceRoot}/server/dist"
         ],
-        "defaultConfiguration": "production",
         "options": {
-          "platform": "node",
-          "outputPath": "server/dist",
-          "format": [
-            "cjs"
+          "commands": [
+            "esbuild server/src/main.ts --bundle --platform=node --format=esm --outfile=server/dist/main.js --packages=external"
           ],
-          "bundle": false,
-          "main": "server/src/main.ts",
-          "tsConfig": "server/tsconfig.app.json",
-          "assets": [
-            "server/src/assets"
-          ],
-          "esbuildOptions": {
-            "sourcemap": true,
-            "outExtension": {
-              ".js": ".js"
-            }
-          }
-        },
-        "configurations": {
-          "development": {},
-          "production": {
-            "esbuildOptions": {
-              "sourcemap": false,
-              "outExtension": {
-                ".js": ".js"
-              }
-            }
-          }
+          "cwd": "{workspaceRoot}"
         }
-      },
-      "prune-lockfile": {
-        "dependsOn": [
-          "build"
-        ],
-        "cache": true,
-        "executor": "@nx/js:prune-lockfile",
-        "outputs": [
-          "{workspaceRoot}/server/dist/package.json",
-          "{workspaceRoot}/server/dist/pnpm-lock.yaml"
-        ],
-        "options": {
-          "buildTarget": "build"
-        }
-      },
-      "copy-workspace-modules": {
-        "dependsOn": [
-          "build"
-        ],
-        "cache": true,
-        "outputs": [
-          "{workspaceRoot}/server/dist/workspace_modules"
-        ],
-        "executor": "@nx/js:copy-workspace-modules",
-        "options": {
-          "buildTarget": "build"
-        }
-      },
-      "prune": {
-        "dependsOn": [
-          "prune-lockfile",
-          "copy-workspace-modules"
-        ],
-        "executor": "nx:noop"
       },
       "serve": {
-        "continuous": true,
-        "executor": "@nx/js:node",
-        "defaultConfiguration": "development",
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "node server/dist/main.js",
+          "cwd": "{workspaceRoot}"
+        },
         "dependsOn": [
           "build"
-        ],
-        "options": {
-          "buildTarget": "@spiko-tricount/server:build",
-          "runBuildTargetDependencies": false
-        },
-        "configurations": {
-          "development": {
-            "buildTarget": "@spiko-tricount/server:build:development"
-          },
-          "production": {
-            "buildTarget": "@spiko-tricount/server:build:production"
-          }
-        }
+        ]
       }
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "@spiko-tricount/api": "workspace:*"
+  }
 }
