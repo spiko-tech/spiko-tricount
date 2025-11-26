@@ -2,7 +2,9 @@
   "name": "@spiko-tricount/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "nx run-many --target=dev"
+  },
   "private": true,
   "packageManager": "pnpm@10.11.0",
   "engines": {
