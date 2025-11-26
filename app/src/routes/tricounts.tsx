@@ -1,82 +1,44 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useState, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 
-interface Tricount {
-  id: string;
-  name: string;
-  description: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface TricountsListResponse {
-  tricounts: Tricount[];
-}
+import { fetchTricounts, createTricount } from '../api/tricounts.js';
 
 export const Route = createFileRoute('/tricounts')({
   component: TricountsComponent,
 });
 
 function TricountsComponent() {
-  const [tricounts, setTricounts] = useState<Tricount[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [isCreating, setIsCreating] = useState(false);
 
-  const fetchTricounts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('http://localhost:3000/tricounts');
-      if (!response.ok) {
-        throw new Error('Failed to fetch tricounts');
-      }
-      const data: TricountsListResponse = await response.json();
-      setTricounts(data.tricounts);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    data: tricounts = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['tricounts'],
+    queryFn: fetchTricounts,
+  });
 
-  useEffect(() => {
-    fetchTricounts();
-  }, []);
+  const createMutation = useMutation({
+    mutationFn: createTricount,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tricounts'] });
+      setName('');
+      setDescription('');
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
 
-    try {
-      setIsCreating(true);
-      const response = await fetch('http://localhost:3000/tricounts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          description: description.trim() || null,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create tricount');
-      }
-
-      setName('');
-      setDescription('');
-      await fetchTricounts();
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to create tricount'
-      );
-    } finally {
-      setIsCreating(false);
-    }
+    createMutation.mutate({
+      name: name.trim(),
+      description: description.trim() || null,
+    });
   };
 
   return (
@@ -133,18 +95,25 @@ function TricountsComponent() {
             </div>
             <button
               type="submit"
-              disabled={isCreating || !name.trim()}
+              disabled={createMutation.isPending || !name.trim()}
               className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isCreating ? 'Creating...' : 'Create Tricount'}
+              {createMutation.isPending ? 'Creating...' : 'Create Tricount'}
             </button>
           </form>
         </div>
 
-        {/* Error message */}
+        {/* Error messages */}
         {error && (
           <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">
-            {error}
+            {error instanceof Error ? error.message : 'An error occurred'}
+          </div>
+        )}
+        {createMutation.error && (
+          <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">
+            {createMutation.error instanceof Error
+              ? createMutation.error.message
+              : 'Failed to create tricount'}
           </div>
         )}
 
@@ -156,7 +125,7 @@ function TricountsComponent() {
             </h2>
           </div>
 
-          {loading ? (
+          {isLoading ? (
             <div className="p-6 text-center text-gray-500">Loading...</div>
           ) : tricounts.length === 0 ? (
             <div className="p-6 text-center text-gray-500">
