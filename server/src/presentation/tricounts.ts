@@ -10,9 +10,6 @@ import {
 import { TricountRepository } from '../domain/tricount-repository.js';
 import { Tricount } from '../domain/tricount.js';
 
-/**
- * Implementation of the Tricounts API group handlers
- */
 export const TricountsApiGroupLive = HttpApiBuilder.group(
   Api,
   'tricounts',

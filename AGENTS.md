@@ -23,6 +23,7 @@
 - **Effect**: Use Effect-TS patterns - Schema.Class for data types, Layer for DI, Effect for async ops
 - **Errors**: Always use `Schema.TaggedError` for custom errors
 - **Tests**: Vitest with `describe`/`it` blocks. Place specs alongside source as `*.spec.ts`
+- **Comments**: Avoid unnecessary comments. Code should be self-documenting through clear naming. No JSDoc or inline comments unless absolutely necessary for complex logic
 
 ## Server Architecture (DDD)
 

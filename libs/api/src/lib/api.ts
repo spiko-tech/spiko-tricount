@@ -1,9 +1,6 @@
 import { HttpApi, HttpApiEndpoint, HttpApiGroup } from '@effect/platform';
 import { Schema } from 'effect';
 
-/**
- * Health check endpoint response
- */
 export class HealthResponse extends Schema.Class<HealthResponse>(
   'HealthResponse'
 )({
@@ -11,16 +8,10 @@ export class HealthResponse extends Schema.Class<HealthResponse>(
   timestamp: Schema.DateTimeUtc,
 }) {}
 
-/**
- * Health API group - for health checks and basic info
- */
 export const HealthApiGroup = HttpApiGroup.make('health').add(
   HttpApiEndpoint.get('check', '/health').addSuccess(HealthResponse)
 );
 
-/**
- * Tricount response schema
- */
 export class TricountResponse extends Schema.Class<TricountResponse>(
   'TricountResponse'
 )({
@@ -31,18 +22,12 @@ export class TricountResponse extends Schema.Class<TricountResponse>(
   updatedAt: Schema.DateTimeUtc,
 }) {}
 
-/**
- * List tricounts response
- */
 export class TricountsListResponse extends Schema.Class<TricountsListResponse>(
   'TricountsListResponse'
 )({
   tricounts: Schema.Array(TricountResponse),
 }) {}
 
-/**
- * Create tricount request body
- */
 export class CreateTricountRequest extends Schema.Class<CreateTricountRequest>(
   'CreateTricountRequest'
 )({
@@ -50,9 +35,6 @@ export class CreateTricountRequest extends Schema.Class<CreateTricountRequest>(
   description: Schema.OptionFromNullOr(Schema.String),
 }) {}
 
-/**
- * Tricount API error
- */
 export class TricountApiError extends Schema.TaggedError<TricountApiError>()(
   'TricountApiError',
   {
@@ -60,9 +42,6 @@ export class TricountApiError extends Schema.TaggedError<TricountApiError>()(
   }
 ) {}
 
-/**
- * Tricount API group - for tricount operations
- */
 export const TricountApiGroup = HttpApiGroup.make('tricounts')
   .add(
     HttpApiEndpoint.get('list', '/tricounts')
@@ -76,9 +55,6 @@ export const TricountApiGroup = HttpApiGroup.make('tricounts')
       .addError(TricountApiError)
   );
 
-/**
- * Main API definition for Spiko Tricount
- */
 export const Api = HttpApi.make('SpikoTricountApi')
   .add(HealthApiGroup)
   .add(TricountApiGroup);

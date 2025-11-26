@@ -6,9 +6,6 @@ import {
 } from '../domain/tricount-repository.js';
 import { Tricount } from '../domain/tricount.js';
 
-/**
- * Database row schema representing the raw SQL result
- */
 class TricountRow extends Schema.Class<TricountRow>('TricountRow')({
   id: Schema.String,
   name: Schema.String,
@@ -17,9 +14,6 @@ class TricountRow extends Schema.Class<TricountRow>('TricountRow')({
   updated_at: Schema.DateFromSelf,
 }) {}
 
-/**
- * Transform from database row to domain entity
- */
 const TricountFromRow = Schema.transform(
   TricountRow,
   Schema.typeSchema(Tricount),
@@ -44,15 +38,11 @@ const TricountFromRow = Schema.transform(
   }
 );
 
-/**
- * SQL-based implementation of TricountRepository
- */
 export const SqlTricountRepositoryLive = Layer.effect(
   TricountRepository,
   Effect.gen(function* () {
     const sql = yield* SqlClient.SqlClient;
 
-    // Store tricount using upsert (insert or update on conflict)
     const storeSchema = SqlSchema.single({
       Request: Schema.typeSchema(Tricount),
       Result: TricountFromRow,
@@ -84,7 +74,6 @@ export const SqlTricountRepositoryLive = Layer.effect(
         )
       );
 
-    // Find tricount by ID using SqlResolver for caching/batching support
     const findByIdResolver = yield* SqlResolver.findById('FindTricountById', {
       Id: Schema.String,
       Result: TricountFromRow,
@@ -104,7 +93,6 @@ export const SqlTricountRepositoryLive = Layer.effect(
         )
       );
 
-    // Find all tricounts
     const findAllSchema = SqlSchema.findAll({
       Request: Schema.Void,
       Result: TricountFromRow,
@@ -123,7 +111,6 @@ export const SqlTricountRepositoryLive = Layer.effect(
         )
       );
 
-    // Delete tricount using SqlResolver.void for side effects
     const deleteResolver = yield* SqlResolver.void('DeleteTricount', {
       Request: Schema.String,
       execute: (ids) => sql`DELETE FROM tricounts WHERE id IN ${sql.in(ids)}`,
