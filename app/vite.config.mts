@@ -32,6 +32,7 @@ export default defineConfig(() => ({
   },
   test: {
     name: '@spiko-tricount/app',
+    passWithNoTests: true,
     watch: false,
     globals: true,
     environment: 'jsdom',
