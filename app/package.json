@@ -5,6 +5,7 @@
   "dependencies": {
     "@effect/platform": "^0.93.3",
     "@spiko-tricount/primitives": "workspace:*",
+    "@tanstack/react-form": "^1.26.0",
     "@tanstack/react-query": "^5.90.11",
     "@tanstack/react-router": "^1.139.6",
     "@tanstack/router-plugin": "^1.139.6",
