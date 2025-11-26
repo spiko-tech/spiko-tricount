@@ -1,90 +1,108 @@
-# SpikoTricount
+# Spiko Tricount
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A fullstack expense-sharing application built as a practical case for Spiko's software engineering interviews.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Context
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/js?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+This project is a "Tricount" application (similar to [Tricount](https://www.tricount.com/) or [Splitwise](https://www.splitwise.com/)) that allows users to track shared expenses and settle debts using EUTBL tokens (Spiko tokens).
 
-## Finish your CI setup
+## Features
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/UkOaTypAw1)
+### Authentication
 
+- Sign up with email/password
+- Sign in
+- Log out
 
-## Generate a library
+### Tricount Management
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
-```
+- Create a new tricount instance (expense group)
+- Invite users to join a tricount
 
-## Run tasks
+### Expense Tracking
 
-To build the library use:
+- Add expenses to a tricount
+- Specify who paid and how the expense should be split
+- View expense history
 
-```sh
-npx nx build pkg1
-```
+### Settlement
 
-To run any task with Nx use:
+- Automatic computation of refunds/balances between participants
+- Settle debts using EUTBL tokens (Spiko tokens)
 
-```sh
-npx nx <target> <project-name>
-```
+## Tech Stack
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+This is an [Nx](https://nx.dev) monorepo containing:
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **Client**: Frontend application
+- **Server**: Backend API
 
-## Versioning and releasing
+## Getting Started
 
-To version and release the library use
+### Prerequisites
 
-```
-npx nx release
-```
+- Node.js LTS (v24.x)
+- pnpm
 
-Pass `--dry-run` to see what would happen without actually releasing the library.
-
-[Learn more about Nx release &raquo;](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Keep TypeScript project references up to date
-
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
+### Installation
 
 ```sh
-npx nx sync
+pnpm install
 ```
 
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
+### Development
+
+Run all projects:
 
 ```sh
-npx nx sync:check
+npx nx run-many -t serve
 ```
 
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
+Run a specific project:
 
+```sh
+npx nx serve <project-name>
+```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Build
 
-## Install Nx Console
+```sh
+npx nx run-many -t build
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+### Testing
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+npx nx run-many -t test
+```
 
-## Useful links
+### Linting
 
-Learn more:
+```sh
+npx nx run-many -t lint
+```
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/js?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Project Structure
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```
+packages/
+  client/     # Frontend application
+  server/     # Backend API
+  shared/     # Shared types and utilities
+```
+
+## Useful Commands
+
+| Command                    | Description                    |
+| -------------------------- | ------------------------------ |
+| `npx nx graph`             | Visualize project dependencies |
+| `npx nx affected -t build` | Build only affected projects   |
+| `npx nx affected -t test`  | Test only affected projects    |
+
+## Interview Instructions
+
+Please refer to the instructions provided by your interviewer for specific requirements and evaluation criteria.
+
+## License
+
+MIT
