@@ -52,16 +52,21 @@ pnpm install
 
 ### Development
 
-Run all projects:
+Run all projects in watch mode:
 
 ```sh
-npx nx run-many -t serve
+pnpm nx run-many -t serve
 ```
+
+This starts:
+
+- **App**: http://localhost:4200 (React frontend)
+- **Server**: http://localhost:3000 (API backend)
 
 Run a specific project:
 
 ```sh
-npx nx serve server
+pnpm nx serve server
 ```
 
 ### Build
