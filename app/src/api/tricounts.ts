@@ -1,5 +1,5 @@
 import { HttpApiClient, FetchHttpClient } from '@effect/platform';
-import { Effect, Option } from 'effect';
+import { DateTime, Effect, Option } from 'effect';
 import { Api, TricountResponse } from '@spiko-tricount/api';
 import { TricountId } from '@spiko-tricount/primitives';
 
@@ -23,8 +23,8 @@ function toTricount(response: TricountResponse): Tricount {
     id: response.id,
     name: response.name,
     description: Option.getOrNull(response.description),
-    createdAt: response.createdAt.toString(),
-    updatedAt: response.updatedAt.toString(),
+    createdAt: DateTime.toDateUtc(response.createdAt).toISOString(),
+    updatedAt: DateTime.toDateUtc(response.updatedAt).toISOString(),
   };
 }
 
