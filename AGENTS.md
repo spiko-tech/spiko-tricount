@@ -3,16 +3,16 @@
 ## Build/Lint/Test Commands
 
 - Install: `pnpm install`
-- Build all: `pnpm exec nx run-many -t build`
-- Lint all: `pnpm exec nx run-many -t lint`
-- Test all: `pnpm exec nx run-many -t test`
-- Typecheck all: `pnpm exec nx run-many -t typecheck`
-- Single project: `pnpm exec nx test <project>` (e.g., `pnpm exec nx test api`)
-- Single test file: `pnpm exec nx test <project> --testFile=<filename>`
+- Build all: `pnpm nx run-many -t build`
+- Lint all: `pnpm nx run-many -t lint`
+- Test all: `pnpm nx run-many -t test`
+- Typecheck all: `pnpm nx run-many -t typecheck`
+- Single project: `pnpm nx test <project>` (e.g., `pnpm nx test api`)
+- Single test file: `pnpm nx test <project> --testFile=<filename>`
 
 ## Code Style
 
-- **Formatting**: Prettier with single quotes. Run `pnpm exec prettier --write <file>`
+- **Formatting**: Prettier. Run `pnpm nx run-many -t lint --fix`
 - **Imports**: Use `.js` extension for local imports (ESM). Use `@spiko-tricount/*` path aliases for libs
 - **Types**: Strict TypeScript enabled. No implicit any, unused locals, or missing returns
 - **Naming**: PascalCase for classes/components/schemas, camelCase for functions/variables
