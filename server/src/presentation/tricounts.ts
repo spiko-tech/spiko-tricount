@@ -1,9 +1,7 @@
 import { HttpApiBuilder, HttpApiError } from '@effect/platform';
-import { DateTime, Effect } from 'effect';
-
+import { Effect } from 'effect';
 import { Api } from '@spiko-tricount/api';
-import { TricountRepository } from '../domain/tricount-repository.js';
-import { Tricount } from '../domain/tricount.js';
+import { TricountService } from '../application/tricount-service.js';
 
 export const TricountsApiGroupLive = HttpApiBuilder.group(
   Api,
@@ -12,18 +10,9 @@ export const TricountsApiGroupLive = HttpApiBuilder.group(
     handlers
       .handle('list', () =>
         Effect.gen(function* () {
-          const repo = yield* TricountRepository;
-          const tricounts = yield* repo.findAll();
-
-          return {
-            tricounts: tricounts.map((t) => ({
-              id: t.id,
-              name: t.name,
-              description: t.description,
-              createdAt: t.createdAt,
-              updatedAt: t.updatedAt,
-            })),
-          };
+          const service = yield* TricountService;
+          const tricounts = yield* service.listTricounts();
+          return { tricounts };
         }).pipe(
           Effect.catchAll(() =>
             Effect.fail(new HttpApiError.InternalServerError())
@@ -32,26 +21,12 @@ export const TricountsApiGroupLive = HttpApiBuilder.group(
       )
       .handle('create', ({ payload }) =>
         Effect.gen(function* () {
-          const repo = yield* TricountRepository;
-          const now = yield* DateTime.now;
-
-          const tricount = new Tricount({
-            id: crypto.randomUUID() as typeof Tricount.fields.id.Type,
+          const service = yield* TricountService;
+          const tricount = yield* service.createTricount({
             name: payload.name,
             description: payload.description,
-            createdAt: now,
-            updatedAt: now,
           });
-
-          const stored = yield* repo.store(tricount);
-
-          return {
-            id: stored.id,
-            name: stored.name,
-            description: stored.description,
-            createdAt: stored.createdAt,
-            updatedAt: stored.updatedAt,
-          };
+          return tricount;
         }).pipe(
           Effect.catchAll(() =>
             Effect.fail(new HttpApiError.InternalServerError())
