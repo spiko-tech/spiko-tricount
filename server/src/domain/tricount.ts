@@ -11,9 +11,7 @@ export class Tricount extends Schema.Class<Tricount>('Tricount')({
   updatedAt: Schema.DateTimeUtc,
 }) {}
 
-export class CreateTricount extends Schema.Class<CreateTricount>(
-  'CreateTricount'
-)({
+export class CreateTricount extends Schema.Class<CreateTricount>('CreateTricount')({
   name: Schema.String,
   description: Schema.optionalWith(Schema.String, { as: 'Option' }),
 }) {}

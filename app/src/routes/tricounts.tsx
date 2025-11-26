@@ -46,24 +46,16 @@ function TricountsComponent() {
       <div className="mx-auto max-w-4xl px-4">
         <div className="mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">Tricounts</h1>
-          <Link
-            to="/"
-            className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
-          >
+          <Link to="/" className="text-sm text-blue-600 hover:text-blue-800 hover:underline">
             Back to Home
           </Link>
         </div>
 
         <div className="mb-8 rounded-lg bg-white p-6 shadow">
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">
-            Create New Tricount
-          </h2>
+          <h2 className="mb-4 text-xl font-semibold text-gray-800">Create New Tricount</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name *
               </label>
               <input
@@ -77,10 +69,7 @@ function TricountsComponent() {
               />
             </div>
             <div>
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                 Description
               </label>
               <textarea
@@ -109,42 +98,29 @@ function TricountsComponent() {
         )}
         {createMutation.error && (
           <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">
-            {createMutation.error instanceof Error
-              ? createMutation.error.message
-              : 'Failed to create tricount'}
+            {createMutation.error instanceof Error ? createMutation.error.message : 'Failed to create tricount'}
           </div>
         )}
 
         <div className="rounded-lg bg-white shadow">
           <div className="border-b border-gray-200 px-6 py-4">
-            <h2 className="text-xl font-semibold text-gray-800">
-              Your Tricounts
-            </h2>
+            <h2 className="text-xl font-semibold text-gray-800">Your Tricounts</h2>
           </div>
 
           {isLoading ? (
             <div className="p-6 text-center text-gray-500">Loading...</div>
           ) : tricounts.length === 0 ? (
-            <div className="p-6 text-center text-gray-500">
-              No tricounts yet. Create one above!
-            </div>
+            <div className="p-6 text-center text-gray-500">No tricounts yet. Create one above!</div>
           ) : (
             <ul className="divide-y divide-gray-200">
               {tricounts.map((tricount) => (
                 <li key={tricount.id} className="px-6 py-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900">
-                        {tricount.name}
-                      </h3>
-                      {tricount.description && (
-                        <p className="mt-1 text-sm text-gray-500">
-                          {tricount.description}
-                        </p>
-                      )}
+                      <h3 className="text-lg font-medium text-gray-900">{tricount.name}</h3>
+                      {tricount.description && <p className="mt-1 text-sm text-gray-500">{tricount.description}</p>}
                       <p className="mt-1 text-xs text-gray-400">
-                        Created:{' '}
-                        {new Date(tricount.createdAt).toLocaleDateString()}
+                        Created: {new Date(tricount.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                   </div>

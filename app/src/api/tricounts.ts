@@ -43,9 +43,7 @@ export async function fetchTricounts(): Promise<Tricount[]> {
   );
 }
 
-export async function createTricount(
-  input: CreateTricountInput
-): Promise<Tricount> {
+export async function createTricount(input: CreateTricountInput): Promise<Tricount> {
   return Effect.runPromise(
     Effect.gen(function* () {
       const client = yield* makeApiClient;
