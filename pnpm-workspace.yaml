@@ -1,6 +1,8 @@
 packages:
-  - 'packages/*'
-  - 'server'
-  - 'app'
-  - 'libs/*'
+  - packages/*
+  - server
+  - app
+  - libs/*
 autoInstallPeers: true
+onlyBuiltDependencies:
+  - esbuild
