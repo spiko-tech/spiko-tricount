@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import path from 'path';
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
@@ -18,6 +19,14 @@ export default defineConfig(() => ({
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
     react(),
   ],
+  resolve: {
+    alias: {
+      '@spiko-tricount/api': path.resolve(
+        import.meta.dirname,
+        '../libs/api/src/index.ts'
+      ),
+    },
+  },
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [],
