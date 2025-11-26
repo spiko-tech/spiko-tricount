@@ -34,8 +34,7 @@ This project is a "Tricount" application (similar to [Tricount](https://www.tric
 
 This is an [Nx](https://nx.dev) monorepo containing:
 
-- **Client**: Frontend application
-- **Server**: Backend API
+- **Server** (`server/`): Node.js backend API built with esbuild
 
 ## Getting Started
 
@@ -61,7 +60,7 @@ npx nx run-many -t serve
 Run a specific project:
 
 ```sh
-npx nx serve <project-name>
+npx nx serve server
 ```
 
 ### Build
@@ -85,10 +84,8 @@ npx nx run-many -t lint
 ## Project Structure
 
 ```
-packages/
-  client/     # Frontend application
-  server/     # Backend API
-  shared/     # Shared types and utilities
+server/       # Node.js backend API
+packages/     # Shared packages
 ```
 
 ## Useful Commands
