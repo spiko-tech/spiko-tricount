@@ -54,7 +54,6 @@ function TricountsComponent() {
           </Link>
         </div>
 
-        {/* Create form */}
         <div className="mb-8 rounded-lg bg-white p-6 shadow">
           <h2 className="mb-4 text-xl font-semibold text-gray-800">
             Create New Tricount
@@ -103,7 +102,6 @@ function TricountsComponent() {
           </form>
         </div>
 
-        {/* Error messages */}
         {error && (
           <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">
             {error instanceof Error ? error.message : 'An error occurred'}
@@ -117,7 +115,6 @@ function TricountsComponent() {
           </div>
         )}
 
-        {/* Tricounts list */}
         <div className="rounded-lg bg-white shadow">
           <div className="border-b border-gray-200 px-6 py-4">
             <h2 className="text-xl font-semibold text-gray-800">

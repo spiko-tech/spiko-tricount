@@ -12,17 +12,11 @@ import {
 import { HealthApiGroupLive } from './health.js';
 import { TricountsApiGroupLive } from './tricounts.js';
 
-/**
- * Full API implementation layer
- */
 const ApiLive = HttpApiBuilder.api(Api).pipe(
   Layer.provide(HealthApiGroupLive),
   Layer.provide(TricountsApiGroupLive)
 );
 
-/**
- * HTTP server configuration layer
- */
 export const ServerLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
   Layer.provide(HttpApiBuilder.middlewareCors()),
   Layer.provide(ApiLive),

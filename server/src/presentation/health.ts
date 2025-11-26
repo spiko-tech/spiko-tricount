@@ -3,9 +3,6 @@ import { DateTime, Effect } from 'effect';
 
 import { Api, HealthResponse } from '@spiko-tricount/api';
 
-/**
- * Implementation of the Health API group handlers
- */
 export const HealthApiGroupLive = HttpApiBuilder.group(
   Api,
   'health',

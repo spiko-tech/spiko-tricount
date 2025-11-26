@@ -1,10 +1,5 @@
 import { Schema } from 'effect';
 
-/**
- * Tricount domain entity
- *
- * Represents an expense-sharing group where users can track shared expenses
- */
 export class Tricount extends Schema.Class<Tricount>('Tricount')({
   id: Schema.UUID,
   name: Schema.String,
@@ -13,9 +8,6 @@ export class Tricount extends Schema.Class<Tricount>('Tricount')({
   updatedAt: Schema.DateTimeUtc,
 }) {}
 
-/**
- * Schema for creating a new Tricount (without id and timestamps)
- */
 export class CreateTricount extends Schema.Class<CreateTricount>(
   'CreateTricount'
 )({
