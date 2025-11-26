@@ -1,58 +1,49 @@
-import { HttpApi, HttpApiEndpoint, HttpApiGroup } from '@effect/platform';
+import {
+  HttpApi,
+  HttpApiEndpoint,
+  HttpApiError,
+  HttpApiGroup,
+} from '@effect/platform';
 import { Schema } from 'effect';
 
-export class HealthResponse extends Schema.Class<HealthResponse>(
-  'HealthResponse'
-)({
+export const HealthResponse = Schema.Struct({
   status: Schema.Literal('ok'),
   timestamp: Schema.DateTimeUtc,
-}) {}
+});
 
 export const HealthApiGroup = HttpApiGroup.make('health').add(
   HttpApiEndpoint.get('check', '/health').addSuccess(HealthResponse)
 );
 
-export class TricountResponse extends Schema.Class<TricountResponse>(
-  'TricountResponse'
-)({
+export const TricountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   description: Schema.OptionFromNullOr(Schema.String),
   createdAt: Schema.DateTimeUtc,
   updatedAt: Schema.DateTimeUtc,
-}) {}
+});
+export type TricountResponse = typeof TricountResponse.Type;
 
-export class TricountsListResponse extends Schema.Class<TricountsListResponse>(
-  'TricountsListResponse'
-)({
+export const TricountsListResponse = Schema.Struct({
   tricounts: Schema.Array(TricountResponse),
-}) {}
+});
 
-export class CreateTricountRequest extends Schema.Class<CreateTricountRequest>(
-  'CreateTricountRequest'
-)({
+export const CreateTricountRequest = Schema.Struct({
   name: Schema.String,
   description: Schema.OptionFromNullOr(Schema.String),
-}) {}
-
-export class TricountApiError extends Schema.TaggedError<TricountApiError>()(
-  'TricountApiError',
-  {
-    message: Schema.String,
-  }
-) {}
+});
 
 export const TricountApiGroup = HttpApiGroup.make('tricounts')
   .add(
     HttpApiEndpoint.get('list', '/tricounts')
       .addSuccess(TricountsListResponse)
-      .addError(TricountApiError)
+      .addError(HttpApiError.InternalServerError)
   )
   .add(
     HttpApiEndpoint.post('create', '/tricounts')
       .setPayload(CreateTricountRequest)
       .addSuccess(TricountResponse)
-      .addError(TricountApiError)
+      .addError(HttpApiError.InternalServerError)
   );
 
 export const Api = HttpApi.make('SpikoTricountApi')
