@@ -69,14 +69,11 @@ export const SqlTricountRepositoryLive = Layer.effect(
 
     const store = (tricount: Tricount) =>
       storeSchema(tricount).pipe(
-        Effect.catchAll((error) =>
-          Effect.fail(
-            new PersistenceError({
-              message: 'Failed to store tricount',
-              cause: error,
-            })
-          )
-        )
+        Effect.catchTags({
+          SqlError: PersistenceError.fromSqlError,
+          ParseError: PersistenceError.fromParseError,
+          NoSuchElementException: PersistenceError.fromUnknownError,
+        })
       );
 
     const findByIdResolver = yield* SqlResolver.findById('FindTricountById', {
@@ -88,14 +85,10 @@ export const SqlTricountRepositoryLive = Layer.effect(
 
     const findById = (id: TricountId) =>
       findByIdResolver.execute(id).pipe(
-        Effect.catchAll((error) =>
-          Effect.fail(
-            new PersistenceError({
-              message: 'Failed to find tricount',
-              cause: error,
-            })
-          )
-        )
+        Effect.catchTags({
+          SqlError: PersistenceError.fromSqlError,
+          ParseError: PersistenceError.fromParseError,
+        })
       );
 
     const findAllSchema = SqlSchema.findAll({
@@ -106,14 +99,10 @@ export const SqlTricountRepositoryLive = Layer.effect(
 
     const findAll = () =>
       findAllSchema(undefined as void).pipe(
-        Effect.catchAll((error) =>
-          Effect.fail(
-            new PersistenceError({
-              message: 'Failed to find tricounts',
-              cause: error,
-            })
-          )
-        )
+        Effect.catchTags({
+          SqlError: PersistenceError.fromSqlError,
+          ParseError: PersistenceError.fromParseError,
+        })
       );
 
     const deleteResolver = yield* SqlResolver.void('DeleteTricount', {
@@ -124,14 +113,10 @@ export const SqlTricountRepositoryLive = Layer.effect(
     const deleteFn = (id: TricountId) =>
       deleteResolver.execute(id).pipe(
         Effect.map(() => true),
-        Effect.catchAll((error) =>
-          Effect.fail(
-            new PersistenceError({
-              message: 'Failed to delete tricount',
-              cause: error,
-            })
-          )
-        )
+        Effect.catchTags({
+          SqlError: PersistenceError.fromSqlError,
+          ParseError: PersistenceError.fromParseError,
+        })
       );
 
     return {
