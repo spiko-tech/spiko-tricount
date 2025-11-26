@@ -1,35 +1,22 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLiveQuery } from '@tanstack/react-db';
 
-import { fetchTricounts, deleteTricount, Tricount } from '../api/tricounts.js';
+import { getTricountsCollection } from '../collections/tricounts.js';
 import { CreateTricountForm } from '../components/CreateTricountForm.js';
+import type { Tricount } from '../api/tricounts.js';
 
 export const Route = createFileRoute('/tricounts')({
   component: TricountsComponent,
 });
 
 function TricountsComponent() {
-  const queryClient = useQueryClient();
+  const tricountsCollection = getTricountsCollection();
 
-  const {
-    data: tricounts = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['tricounts'],
-    queryFn: fetchTricounts,
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteTricount,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tricounts'] });
-    },
-  });
+  const { data: tricounts = [], isLoading, isError } = useLiveQuery((q) => q.from({ tricount: tricountsCollection }));
 
   const handleDelete = (id: Tricount['id']) => {
     if (window.confirm('Are you sure you want to delete this tricount?')) {
-      deleteMutation.mutate(id);
+      tricountsCollection.delete(id);
     }
   };
 
@@ -45,15 +32,8 @@ function TricountsComponent() {
 
         <CreateTricountForm />
 
-        {error && (
-          <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">
-            {error instanceof Error ? error.message : 'An error occurred'}
-          </div>
-        )}
-        {deleteMutation.error && (
-          <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">
-            {deleteMutation.error instanceof Error ? deleteMutation.error.message : 'Failed to delete tricount'}
-          </div>
+        {isError && (
+          <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">An error occurred while loading tricounts</div>
         )}
 
         <div className="rounded-lg bg-white shadow">
@@ -79,10 +59,9 @@ function TricountsComponent() {
                     </div>
                     <button
                       onClick={() => handleDelete(tricount.id)}
-                      disabled={deleteMutation.isPending}
-                      className="rounded-md bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="rounded-md bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                     >
-                      {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+                      Delete
                     </button>
                   </div>
                 </li>
