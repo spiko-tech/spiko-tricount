@@ -28,6 +28,7 @@
 - Use Effect-TS patterns: `Schema.Class` for domain entities, `Schema.Struct` for API schemas, `Layer` for DI, `Effect` for async ops
 - Never use `unsafe` methods (e.g., `unsafeNow`, `unsafeFromDate`, `unsafeMake`) - use safe alternatives like `DateTime.now` (Effect) or `DateTime.make` (Option) instead
 - Use branded types for entity IDs (e.g., `Schema.UUID.pipe(Schema.brand('TricountId'))`)
+- Never use `as` type casts - use `Schema.decode` to properly validate and convert values (e.g., `Schema.decode(TricountId)(uuid)` instead of `uuid as TricountId`)
 
 ## Error Handling
 

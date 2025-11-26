@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { fetchTricounts, createTricount, deleteTricount } from '../api/tricounts.js';
+import { fetchTricounts, createTricount, deleteTricount, Tricount } from '../api/tricounts.js';
 
 export const Route = createFileRoute('/tricounts')({
   component: TricountsComponent,
@@ -38,7 +38,7 @@ function TricountsComponent() {
     },
   });
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: Tricount['id']) => {
     if (window.confirm('Are you sure you want to delete this tricount?')) {
       deleteMutation.mutate(id);
     }

@@ -1,4 +1,4 @@
-import { Context, DateTime, Effect, Layer, Option } from 'effect';
+import { Context, DateTime, Effect, Layer, Option, Schema } from 'effect';
 
 import { PersistenceError } from '../domain/errors.js';
 import { Tricount, TricountId } from '../domain/tricount.js';
@@ -27,9 +27,10 @@ export const TricountServiceLive = Layer.effect(
       createTricount: ({ name, description }) =>
         Effect.gen(function* () {
           const now = yield* DateTime.now;
+          const id = yield* Schema.decode(TricountId)(crypto.randomUUID());
 
           const tricount = new Tricount({
-            id: crypto.randomUUID() as TricountId,
+            id,
             name,
             description,
             createdAt: now,
@@ -37,7 +38,7 @@ export const TricountServiceLive = Layer.effect(
           });
 
           return yield* repo.store(tricount);
-        }),
+        }).pipe(Effect.catchTag('ParseError', PersistenceError.fromParseError)),
 
       deleteTricount: (id: TricountId) => repo.delete(id),
     };

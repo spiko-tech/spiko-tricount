@@ -1,7 +1,7 @@
 import { Schema } from 'effect';
+import { TricountId } from '@spiko-tricount/primitives';
 
-export const TricountId = Schema.UUID.pipe(Schema.brand('TricountId'));
-export type TricountId = typeof TricountId.Type;
+export { TricountId };
 
 export class Tricount extends Schema.Class<Tricount>('Tricount')({
   id: TricountId,

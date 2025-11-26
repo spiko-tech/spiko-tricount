@@ -2,7 +2,6 @@ import { HttpApiBuilder, HttpApiError } from '@effect/platform';
 import { Effect } from 'effect';
 import { Api } from '@spiko-tricount/api';
 import { TricountService } from '../application/tricount-service.js';
-import { TricountId } from '../domain/tricount.js';
 
 export const TricountsApiGroupLive = HttpApiBuilder.group(Api, 'tricounts', (handlers) =>
   handlers
@@ -26,7 +25,7 @@ export const TricountsApiGroupLive = HttpApiBuilder.group(Api, 'tricounts', (han
     .handle('delete', ({ path }) =>
       Effect.gen(function* () {
         const service = yield* TricountService;
-        const success = yield* service.deleteTricount(path.id as TricountId);
+        const success = yield* service.deleteTricount(path.id);
         return { success };
       }).pipe(Effect.catchTag('PersistenceError', () => new HttpApiError.InternalServerError()))
     )

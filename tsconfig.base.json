@@ -18,7 +18,8 @@
     "target": "es2022",
     "customConditions": ["@spiko-tricount/source"],
     "paths": {
-      "@spiko-tricount/api": ["libs/api/src/index.ts"]
+      "@spiko-tricount/api": ["libs/api/src/index.ts"],
+      "@spiko-tricount/primitives": ["libs/primitives/src/index.ts"]
     },
     "baseUrl": "."
   }
