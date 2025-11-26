@@ -12,3 +12,7 @@
 - API functions return Promises (not Effects) for TanStack DB compatibility
 - Use `Effect.runPromise` to convert Effect-based API calls to Promises
 - Transform API responses to frontend-friendly types (e.g., `Option` to `null`)
+
+## Data Fetching
+
+- Prefer suspense-based query hooks (e.g., `useLiveSuspenseQuery`) with `<Suspense>` boundaries over non-suspense alternatives
