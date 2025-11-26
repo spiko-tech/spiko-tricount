@@ -9,7 +9,7 @@ echo "=========================================="
 echo ""
 echo "Installing pnpm..."
 corepack enable
-corepack prepare pnpm@9.8.0 --activate
+corepack prepare pnpm@10 --activate
 
 # Install dependencies
 echo ""
