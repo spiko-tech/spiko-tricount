@@ -10,7 +10,7 @@ export const TricountsApiGroupLive = HttpApiBuilder.group(Api, 'tricounts', (han
         const service = yield* TricountService;
         const tricounts = yield* service.listTricounts();
         return { tricounts };
-      }).pipe(Effect.catchAll(() => Effect.fail(new HttpApiError.InternalServerError())))
+      }).pipe(Effect.catchTag('PersistenceError', () => new HttpApiError.InternalServerError()))
     )
     .handle('create', ({ payload }) =>
       Effect.gen(function* () {
@@ -20,6 +20,6 @@ export const TricountsApiGroupLive = HttpApiBuilder.group(Api, 'tricounts', (han
           description: payload.description,
         });
         return tricount;
-      }).pipe(Effect.catchAll(() => Effect.fail(new HttpApiError.InternalServerError())))
+      }).pipe(Effect.catchTag('PersistenceError', () => new HttpApiError.InternalServerError()))
     )
 );

@@ -20,10 +20,21 @@
 - **Types**: Strict TypeScript enabled. No implicit any, unused locals, or missing returns
 - **Naming**: PascalCase for classes/components/schemas, camelCase for functions/variables
 - **Components**: Function components with named exports. Use Tailwind for styling
-- **Effect**: Use Effect-TS patterns - Schema.Class for domain entities, Schema.Struct for API schemas, Layer for DI, Effect for async ops. Never use `unsafe` methods (e.g., `unsafeNow`, `unsafeFromDate`, `unsafeMake`) - use safe alternatives like `DateTime.now` (Effect) or `DateTime.make` (Option) instead. Use branded types for entity IDs (e.g., `Schema.UUID.pipe(Schema.brand('TricountId'))`)
-- **Errors**: Use `Schema.TaggedError` for domain errors, `HttpApiError.*` (e.g., `InternalServerError`, `NotFound`) for API errors. In TaggedError `cause` fields, use `Schema.Defect` instead of `Schema.Unknown`
 - **Tests**: Vitest with `describe`/`it` blocks. Place specs alongside source as `*.spec.ts`
 - **Comments**: Avoid unnecessary comments. Code should be self-documenting through clear naming. No JSDoc or inline comments unless absolutely necessary for complex logic
+
+## Effect-TS Guidelines
+
+- Use Effect-TS patterns: `Schema.Class` for domain entities, `Schema.Struct` for API schemas, `Layer` for DI, `Effect` for async ops
+- Never use `unsafe` methods (e.g., `unsafeNow`, `unsafeFromDate`, `unsafeMake`) - use safe alternatives like `DateTime.now` (Effect) or `DateTime.make` (Option) instead
+- Use branded types for entity IDs (e.g., `Schema.UUID.pipe(Schema.brand('TricountId'))`)
+
+## Error Handling
+
+- Use `Schema.TaggedError` for domain errors, `HttpApiError.*` (e.g., `InternalServerError`, `NotFound`) for API errors
+- In TaggedError `cause` fields, use `Schema.Defect` instead of `Schema.Unknown`
+- Use `Effect.catchTag`/`Effect.catchTags` to handle specific errors by their `_tag` discriminator - never use `Effect.catchAll` which catches all errors indiscriminately
+- `Schema.TaggedError` and `HttpApiError` are yieldable, so return them directly without `Effect.fail()` wrapper
 
 ## Server Architecture (DDD)
 
