@@ -4,10 +4,10 @@ import {
   TricountRepository,
   TricountRepositoryError,
 } from '../domain/tricount-repository.js';
-import { Tricount } from '../domain/tricount.js';
+import { Tricount, TricountId } from '../domain/tricount.js';
 
 class TricountRow extends Schema.Class<TricountRow>('TricountRow')({
-  id: Schema.String,
+  id: TricountId,
   name: Schema.String,
   description: Schema.NullOr(Schema.String),
   created_at: Schema.DateFromSelf,
@@ -28,7 +28,7 @@ const TricountFromRow = Schema.transformOrFail(
         Effect.map(
           ({ createdAt, updatedAt }) =>
             new Tricount({
-              id: row.id as typeof Tricount.fields.id.Type,
+              id: row.id,
               name: row.name,
               description: Option.fromNullable(row.description),
               createdAt,
@@ -86,13 +86,13 @@ export const SqlTricountRepositoryLive = Layer.effect(
       );
 
     const findByIdResolver = yield* SqlResolver.findById('FindTricountById', {
-      Id: Schema.String,
+      Id: TricountId,
       Result: TricountFromRow,
       ResultId: (result) => result.id,
       execute: (ids) => sql`SELECT * FROM tricounts WHERE id IN ${sql.in(ids)}`,
     });
 
-    const findById = (id: string) =>
+    const findById = (id: TricountId) =>
       findByIdResolver.execute(id).pipe(
         Effect.catchAll((error) =>
           Effect.fail(
@@ -123,11 +123,11 @@ export const SqlTricountRepositoryLive = Layer.effect(
       );
 
     const deleteResolver = yield* SqlResolver.void('DeleteTricount', {
-      Request: Schema.String,
+      Request: TricountId,
       execute: (ids) => sql`DELETE FROM tricounts WHERE id IN ${sql.in(ids)}`,
     });
 
-    const deleteFn = (id: string) =>
+    const deleteFn = (id: TricountId) =>
       deleteResolver.execute(id).pipe(
         Effect.map(() => true),
         Effect.catchAll((error) =>
