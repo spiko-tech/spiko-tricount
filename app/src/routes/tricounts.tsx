@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useLiveSuspenseQuery } from '@tanstack/react-db';
+import { DateTime } from 'effect';
 
 import { getTricountsCollection } from '../collections/tricounts.js';
 import { CreateTricountForm } from '../components/CreateTricountForm.js';
@@ -60,7 +61,9 @@ function TricountsList() {
             <div>
               <h3 className="text-lg font-medium text-gray-900">{tricount.name}</h3>
               {tricount.description && <p className="mt-1 text-sm text-gray-500">{tricount.description}</p>}
-              <p className="mt-1 text-xs text-gray-400">Created: {new Date(tricount.createdAt).toLocaleDateString()}</p>
+              <p className="mt-1 text-xs text-gray-400">
+                Created: {DateTime.toDateUtc(tricount.createdAt).toLocaleDateString()}
+              </p>
             </div>
             <button
               onClick={() => handleDelete(tricount.id)}

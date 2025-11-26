@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { Schema } from 'effect';
+import { DateTime, Schema } from 'effect';
 
 import { getTricountsCollection } from '../collections/tricounts.js';
 import { TricountId } from '@spiko-tricount/primitives';
@@ -13,7 +13,7 @@ export function CreateTricountForm() {
       description: '',
     },
     onSubmit: ({ value }) => {
-      const now = new Date().toISOString();
+      const now = DateTime.unsafeNow();
       const id = Schema.decodeSync(TricountId)(crypto.randomUUID());
 
       tricountsCollection.insert({
