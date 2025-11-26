@@ -4,6 +4,7 @@ import { DateTime, Effect, Layer } from 'effect';
 import { createServer } from 'node:http';
 
 import { Api, HealthResponse } from '@spiko-tricount/api';
+import { DatabaseLive } from './database.js';
 
 /**
  * Implementation of the Health API group handlers
@@ -30,6 +31,7 @@ const ApiLive = HttpApiBuilder.api(Api).pipe(Layer.provide(HealthApiGroupLive));
 const ServerLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
   Layer.provide(HttpApiBuilder.middlewareCors()),
   Layer.provide(ApiLive),
+  Layer.provide(DatabaseLive),
   HttpServer.withLogAddress,
   Layer.provide(NodeHttpServer.layer(createServer, { port: 3000 }))
 );
