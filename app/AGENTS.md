@@ -16,3 +16,7 @@
 ## Data Fetching
 
 - Prefer suspense-based query hooks (e.g., `useLiveSuspenseQuery`) with `<Suspense>` boundaries over non-suspense alternatives
+
+## Testing
+
+- Use the chrome-devtools MCP on http://localhost:4200 to test if the app is working and looking good
