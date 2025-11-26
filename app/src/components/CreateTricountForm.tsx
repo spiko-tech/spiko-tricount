@@ -1,18 +1,11 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from '@tanstack/react-form';
+import { Schema } from 'effect';
 
-import { createTricount } from '../api/tricounts.js';
+import { getTricountsCollection } from '../collections/tricounts.js';
+import { TricountId } from '@spiko-tricount/primitives';
 
 export function CreateTricountForm() {
-  const queryClient = useQueryClient();
-
-  const createMutation = useMutation({
-    mutationFn: createTricount,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tricounts'] });
-      form.reset();
-    },
-  });
+  const tricountsCollection = getTricountsCollection();
 
   const form = useForm({
     defaultValues: {
@@ -20,21 +13,24 @@ export function CreateTricountForm() {
       description: '',
     },
     onSubmit: ({ value }) => {
-      createMutation.mutate({
+      const now = new Date().toISOString();
+      const id = Schema.decodeSync(TricountId)(crypto.randomUUID());
+
+      tricountsCollection.insert({
+        id,
         name: value.name.trim(),
         description: value.description.trim() || null,
+        createdAt: now,
+        updatedAt: now,
       });
+
+      form.reset();
     },
   });
 
   return (
     <div className="mb-8 rounded-lg bg-white p-6 shadow">
       <h2 className="mb-4 text-xl font-semibold text-gray-800">Create New Tricount</h2>
-      {createMutation.error && (
-        <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">
-          {createMutation.error instanceof Error ? createMutation.error.message : 'Failed to create tricount'}
-        </div>
-      )}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -93,10 +89,10 @@ export function CreateTricountForm() {
           {([canSubmit]) => (
             <button
               type="submit"
-              disabled={createMutation.isPending || !canSubmit}
+              disabled={!canSubmit}
               className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {createMutation.isPending ? 'Creating...' : 'Create Tricount'}
+              Create Tricount
             </button>
           )}
         </form.Subscribe>
