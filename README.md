@@ -36,6 +36,7 @@ This is an [Nx](https://nx.dev) monorepo containing:
 
 - **App** (`app/`): React frontend application
 - **Server** (`server/`): Node.js backend API built with esbuild
+- **Database**: PostgreSQL 16
 
 ## Getting Started
 
@@ -43,6 +44,29 @@ This is an [Nx](https://nx.dev) monorepo containing:
 
 - Node.js LTS (v24.x)
 - pnpm
+- Docker (for PostgreSQL database)
+
+### Database Setup
+
+Start the PostgreSQL database:
+
+```sh
+docker compose up -d
+```
+
+This starts a PostgreSQL instance with:
+
+- **Host**: localhost
+- **Port**: 5432
+- **Database**: spiko_tricount
+- **User**: postgres
+- **Password**: postgres
+
+To stop the database:
+
+```sh
+docker compose down
+```
 
 ### Installation
 
