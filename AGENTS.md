@@ -3,7 +3,7 @@
 ## Build/Lint/Test Commands
 
 - Install: `pnpm install`
-- Dev: `pnpm nx run-many -t serve` (app on localhost:4200, server on localhost:3000)
+- Dev: `pnpm nx run-many -t dev` (app on localhost:4200, server on localhost:3000)
 - Build all: `pnpm nx run-many -t build`
 - Lint all: `pnpm nx run-many -t lint`
 - Test all: `pnpm nx run-many -t test`
