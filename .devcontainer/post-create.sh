@@ -5,11 +5,11 @@ echo "=========================================="
 echo "  Setting up Spiko Tricount Development"
 echo "=========================================="
 
-# Install pnpm
+# Install pnpm via corepack (uses packageManager from package.json)
 echo ""
 echo "Installing pnpm..."
 corepack enable
-corepack prepare pnpm@10 --activate
+corepack install
 
 # Install dependencies
 echo ""
