@@ -1,5 +1,5 @@
 import { Context, Effect, Option, Schema } from 'effect';
-import { Tricount } from './tricount.js';
+import { Tricount, TricountId } from './tricount.js';
 
 export class TricountRepositoryError extends Schema.TaggedError<TricountRepositoryError>()(
   'TricountRepositoryError',
@@ -16,14 +16,14 @@ export class TricountRepository extends Context.Tag('TricountRepository')<
       tricount: Tricount
     ) => Effect.Effect<Tricount, TricountRepositoryError>;
     readonly findById: (
-      id: string
+      id: TricountId
     ) => Effect.Effect<Option.Option<Tricount>, TricountRepositoryError>;
     readonly findAll: () => Effect.Effect<
       ReadonlyArray<Tricount>,
       TricountRepositoryError
     >;
     readonly delete: (
-      id: string
+      id: TricountId
     ) => Effect.Effect<boolean, TricountRepositoryError>;
   }
 >() {}
