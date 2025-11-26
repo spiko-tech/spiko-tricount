@@ -15,16 +15,10 @@ export default defineConfig(() => ({
     port: 4200,
     host: 'localhost',
   },
-  plugins: [
-    tanstackRouter({ target: 'react', autoCodeSplitting: true }),
-    react(),
-  ],
+  plugins: [tanstackRouter({ target: 'react', autoCodeSplitting: true }), react()],
   resolve: {
     alias: {
-      '@spiko-tricount/api': path.resolve(
-        import.meta.dirname,
-        '../libs/api/src/index.ts'
-      ),
+      '@spiko-tricount/api': path.resolve(import.meta.dirname, '../libs/api/src/index.ts'),
     },
   },
   // Uncomment this if you are using workers.

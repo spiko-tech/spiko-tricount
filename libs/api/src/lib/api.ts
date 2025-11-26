@@ -1,9 +1,4 @@
-import {
-  HttpApi,
-  HttpApiEndpoint,
-  HttpApiError,
-  HttpApiGroup,
-} from '@effect/platform';
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup } from '@effect/platform';
 import { Schema } from 'effect';
 
 export const HealthResponse = Schema.Struct({
@@ -46,6 +41,4 @@ export const TricountApiGroup = HttpApiGroup.make('tricounts')
       .addError(HttpApiError.InternalServerError)
   );
 
-export const Api = HttpApi.make('SpikoTricountApi')
-  .add(HealthApiGroup)
-  .add(TricountApiGroup);
+export const Api = HttpApi.make('SpikoTricountApi').add(HealthApiGroup).add(TricountApiGroup);
