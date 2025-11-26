@@ -20,8 +20,8 @@
 - **Types**: Strict TypeScript enabled. No implicit any, unused locals, or missing returns
 - **Naming**: PascalCase for classes/components/schemas, camelCase for functions/variables
 - **Components**: Function components with named exports. Use Tailwind for styling
-- **Effect**: Use Effect-TS patterns - Schema.Class for data types, Layer for DI, Effect for async ops
-- **Errors**: Always use `Schema.TaggedError` for custom errors
+- **Effect**: Use Effect-TS patterns - Schema.Class for domain entities, Schema.Struct for API schemas, Layer for DI, Effect for async ops
+- **Errors**: Use `Schema.TaggedError` for domain errors, `HttpApiError.*` (e.g., `InternalServerError`, `NotFound`) for API errors
 - **Tests**: Vitest with `describe`/`it` blocks. Place specs alongside source as `*.spec.ts`
 - **Comments**: Avoid unnecessary comments. Code should be self-documenting through clear naming. No JSDoc or inline comments unless absolutely necessary for complex logic
 
