@@ -1,6 +1,7 @@
 import { SqlClient, SqlResolver, SqlSchema } from '@effect/sql';
 import { DateTime, Effect, Layer, Option, ParseResult, Schema } from 'effect';
-import { TricountRepository, TricountRepositoryError } from '../domain/tricount-repository.js';
+import { PersistenceError } from '../domain/errors.js';
+import { TricountRepository } from '../domain/tricount-repository.js';
 import { Tricount, TricountId } from '../domain/tricount.js';
 
 class TricountRow extends Schema.Class<TricountRow>('TricountRow')({
@@ -70,7 +71,7 @@ export const SqlTricountRepositoryLive = Layer.effect(
       storeSchema(tricount).pipe(
         Effect.catchAll((error) =>
           Effect.fail(
-            new TricountRepositoryError({
+            new PersistenceError({
               message: 'Failed to store tricount',
               cause: error,
             })
@@ -89,7 +90,7 @@ export const SqlTricountRepositoryLive = Layer.effect(
       findByIdResolver.execute(id).pipe(
         Effect.catchAll((error) =>
           Effect.fail(
-            new TricountRepositoryError({
+            new PersistenceError({
               message: 'Failed to find tricount',
               cause: error,
             })
@@ -107,7 +108,7 @@ export const SqlTricountRepositoryLive = Layer.effect(
       findAllSchema(undefined as void).pipe(
         Effect.catchAll((error) =>
           Effect.fail(
-            new TricountRepositoryError({
+            new PersistenceError({
               message: 'Failed to find tricounts',
               cause: error,
             })
@@ -125,7 +126,7 @@ export const SqlTricountRepositoryLive = Layer.effect(
         Effect.map(() => true),
         Effect.catchAll((error) =>
           Effect.fail(
-            new TricountRepositoryError({
+            new PersistenceError({
               message: 'Failed to delete tricount',
               cause: error,
             })

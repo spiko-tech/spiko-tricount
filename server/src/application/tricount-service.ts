@@ -1,16 +1,17 @@
 import { Context, DateTime, Effect, Layer, Option } from 'effect';
 
+import { PersistenceError } from '../domain/errors.js';
 import { Tricount, TricountId } from '../domain/tricount.js';
-import { TricountRepository, TricountRepositoryError } from '../domain/tricount-repository.js';
+import { TricountRepository } from '../domain/tricount-repository.js';
 
 export class TricountService extends Context.Tag('TricountService')<
   TricountService,
   {
-    readonly listTricounts: () => Effect.Effect<ReadonlyArray<Tricount>, TricountRepositoryError>;
+    readonly listTricounts: () => Effect.Effect<ReadonlyArray<Tricount>, PersistenceError>;
     readonly createTricount: (params: {
       name: string;
       description: Option.Option<string>;
-    }) => Effect.Effect<Tricount, TricountRepositoryError>;
+    }) => Effect.Effect<Tricount, PersistenceError>;
   }
 >() {}
 
