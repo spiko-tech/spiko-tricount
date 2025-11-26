@@ -1,5 +1,9 @@
 {
   "name": "@spiko-tricount/app",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@tanstack/react-router": "^1.139.6",
+    "@tanstack/router-plugin": "^1.139.6"
+  }
 }
