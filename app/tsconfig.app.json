@@ -33,6 +33,9 @@
   "references": [
     {
       "path": "../libs/api/tsconfig.lib.json"
+    },
+    {
+      "path": "../libs/primitives/tsconfig.lib.json"
     }
   ]
 }

@@ -1,5 +1,6 @@
 import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup } from '@effect/platform';
 import { Schema } from 'effect';
+import { TricountId } from '@spiko-tricount/primitives';
 
 export const HealthResponse = Schema.Struct({
   status: Schema.Literal('ok'),
@@ -11,7 +12,7 @@ export const HealthApiGroup = HttpApiGroup.make('health').add(
 );
 
 export const TricountResponse = Schema.Struct({
-  id: Schema.String,
+  id: TricountId,
   name: Schema.String,
   description: Schema.OptionFromNullOr(Schema.String),
   createdAt: Schema.DateTimeUtc,
@@ -46,7 +47,7 @@ export const TricountApiGroup = HttpApiGroup.make('tricounts')
   )
   .add(
     HttpApiEndpoint.del('delete', '/tricounts/:id')
-      .setPath(Schema.Struct({ id: Schema.String }))
+      .setPath(Schema.Struct({ id: TricountId }))
       .addSuccess(DeleteTricountResponse)
       .addError(HttpApiError.InternalServerError)
   );

@@ -27,7 +27,7 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": ["libs/api/*"]
+      "exclude": ["libs/api/*", "libs/primitives/*"]
     },
     {
       "plugin": "@nx/vite/plugin",
@@ -58,7 +58,7 @@
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": ["libs/api/*"],
+      "include": ["libs/api/*", "libs/primitives/*"],
       "options": {
         "typecheck": {
           "targetName": "typecheck"

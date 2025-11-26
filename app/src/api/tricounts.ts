@@ -1,11 +1,12 @@
 import { HttpApiClient, FetchHttpClient } from '@effect/platform';
 import { Effect, Option } from 'effect';
 import { Api, TricountResponse } from '@spiko-tricount/api';
+import { TricountId } from '@spiko-tricount/primitives';
 
 const API_BASE_URL = 'http://localhost:3000';
 
 export interface Tricount {
-  id: string;
+  id: TricountId;
   name: string;
   description: string | null;
   createdAt: string;
@@ -58,13 +59,11 @@ export async function createTricount(input: CreateTricountInput): Promise<Tricou
   );
 }
 
-export async function deleteTricount(id: string): Promise<boolean> {
+export async function deleteTricount(id: TricountId): Promise<boolean> {
   return Effect.runPromise(
     Effect.gen(function* () {
       const client = yield* makeApiClient;
-      const response = yield* client.tricounts.delete({
-        path: { id },
-      });
+      const response = yield* client.tricounts.delete({ path: { id } });
       return response.success;
     }).pipe(Effect.provide(FetchHttpClient.layer))
   );
