@@ -16,17 +16,12 @@ echo ""
 echo "Installing dependencies..."
 pnpm install
 
-# Setup PostgreSQL database
-echo ""
-echo "Setting up PostgreSQL database..."
-sudo -u postgres createdb spiko_tricount 2>/dev/null || echo "  Database 'spiko_tricount' already exists"
-
 # Wait for PostgreSQL to be ready
 echo ""
 echo "Waiting for PostgreSQL to be ready..."
 MAX_ATTEMPTS=30
 ATTEMPT=0
-until pg_isready -q; do
+until pg_isready -q 2>/dev/null; do
   ATTEMPT=$((ATTEMPT + 1))
   if [ $ATTEMPT -ge $MAX_ATTEMPTS ]; then
     echo "  Warning: PostgreSQL connection check timed out after ${MAX_ATTEMPTS} attempts"
@@ -38,6 +33,11 @@ done
 if [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
   echo "PostgreSQL is ready!"
 fi
+
+# Setup PostgreSQL database
+echo ""
+echo "Setting up PostgreSQL database..."
+createdb spiko_tricount 2>/dev/null || echo "  Database 'spiko_tricount' already exists"
 
 # Display welcome message
 echo ""
