@@ -55,7 +55,7 @@ pnpm install
 Run all projects in watch mode:
 
 ```sh
-pnpm nx run-many -t serve
+pnpm nx run-many -t dev
 ```
 
 This starts:
