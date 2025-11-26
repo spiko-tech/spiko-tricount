@@ -1,5 +1,5 @@
 import { SqlClient, SqlResolver, SqlSchema } from '@effect/sql';
-import { DateTime, Effect, Layer, Option, Schema } from 'effect';
+import { DateTime, Effect, Layer, Option, ParseResult, Schema } from 'effect';
 import {
   TricountRepository,
   TricountRepositoryError,
@@ -14,27 +14,38 @@ class TricountRow extends Schema.Class<TricountRow>('TricountRow')({
   updated_at: Schema.DateFromSelf,
 }) {}
 
-const TricountFromRow = Schema.transform(
+const TricountFromRow = Schema.transformOrFail(
   TricountRow,
   Schema.typeSchema(Tricount),
   {
     strict: true,
-    decode: (row) =>
-      new Tricount({
-        id: row.id as typeof Tricount.fields.id.Type,
-        name: row.name,
-        description: Option.fromNullable(row.description),
-        createdAt: DateTime.unsafeFromDate(row.created_at),
-        updatedAt: DateTime.unsafeFromDate(row.updated_at),
-      }),
+    decode: (row, _, ast) =>
+      Effect.all({
+        createdAt: DateTime.make(row.created_at),
+        updatedAt: DateTime.make(row.updated_at),
+      }).pipe(
+        Effect.mapError(() => new ParseResult.Type(ast, row, 'Invalid date')),
+        Effect.map(
+          ({ createdAt, updatedAt }) =>
+            new Tricount({
+              id: row.id as typeof Tricount.fields.id.Type,
+              name: row.name,
+              description: Option.fromNullable(row.description),
+              createdAt,
+              updatedAt,
+            })
+        )
+      ),
     encode: (tricount) =>
-      new TricountRow({
-        id: tricount.id,
-        name: tricount.name,
-        description: Option.getOrNull(tricount.description),
-        created_at: DateTime.toDate(tricount.createdAt),
-        updated_at: DateTime.toDate(tricount.updatedAt),
-      }),
+      Effect.succeed(
+        new TricountRow({
+          id: tricount.id,
+          name: tricount.name,
+          description: Option.getOrNull(tricount.description),
+          created_at: DateTime.toDate(tricount.createdAt),
+          updated_at: DateTime.toDate(tricount.updatedAt),
+        })
+      ),
   }
 );
 

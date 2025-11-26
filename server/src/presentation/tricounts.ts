@@ -33,7 +33,7 @@ export const TricountsApiGroupLive = HttpApiBuilder.group(
       .handle('create', ({ payload }) =>
         Effect.gen(function* () {
           const repo = yield* TricountRepository;
-          const now = DateTime.unsafeNow();
+          const now = yield* DateTime.now;
 
           const tricount = new Tricount({
             id: crypto.randomUUID() as typeof Tricount.fields.id.Type,
