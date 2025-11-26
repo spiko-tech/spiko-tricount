@@ -1,5 +1,5 @@
 import { HttpApiBuilder } from '@effect/platform';
-import { Effect } from 'effect';
+import { DateTime, Effect } from 'effect';
 
 import {
   Api,
@@ -8,7 +8,7 @@ import {
   TricountsListResponse,
 } from '@spiko-tricount/api';
 import { TricountRepository } from '../domain/tricount-repository.js';
-import { CreateTricount } from '../domain/tricount.js';
+import { Tricount } from '../domain/tricount.js';
 
 /**
  * Implementation of the Tricounts API group handlers
@@ -48,20 +48,24 @@ export const TricountsApiGroupLive = HttpApiBuilder.group(
       .handle('create', ({ payload }) =>
         Effect.gen(function* () {
           const repo = yield* TricountRepository;
+          const now = DateTime.unsafeNow();
 
-          const createData = new CreateTricount({
+          const tricount = new Tricount({
+            id: crypto.randomUUID() as typeof Tricount.fields.id.Type,
             name: payload.name,
             description: payload.description,
+            createdAt: now,
+            updatedAt: now,
           });
 
-          const tricount = yield* repo.create(createData);
+          const stored = yield* repo.store(tricount);
 
           return new TricountResponse({
-            id: tricount.id,
-            name: tricount.name,
-            description: tricount.description,
-            createdAt: tricount.createdAt,
-            updatedAt: tricount.updatedAt,
+            id: stored.id,
+            name: stored.name,
+            description: stored.description,
+            createdAt: stored.createdAt,
+            updatedAt: stored.updatedAt,
           });
         }).pipe(
           Effect.catchAll((error) =>

@@ -1,5 +1,5 @@
 import { Context, Effect, Option, Schema } from 'effect';
-import { CreateTricount, Tricount } from './tricount.js';
+import { Tricount } from './tricount.js';
 
 /**
  * Error type for repository operations
@@ -20,8 +20,11 @@ export class TricountRepositoryError extends Schema.TaggedError<TricountReposito
 export class TricountRepository extends Context.Tag('TricountRepository')<
   TricountRepository,
   {
-    readonly create: (
-      data: CreateTricount
+    /**
+     * Store a tricount (insert or update using upsert)
+     */
+    readonly store: (
+      tricount: Tricount
     ) => Effect.Effect<Tricount, TricountRepositoryError>;
     readonly findById: (
       id: string
@@ -30,10 +33,6 @@ export class TricountRepository extends Context.Tag('TricountRepository')<
       ReadonlyArray<Tricount>,
       TricountRepositoryError
     >;
-    readonly update: (
-      id: string,
-      data: Partial<CreateTricount>
-    ) => Effect.Effect<Option.Option<Tricount>, TricountRepositoryError>;
     readonly delete: (
       id: string
     ) => Effect.Effect<boolean, TricountRepositoryError>;
