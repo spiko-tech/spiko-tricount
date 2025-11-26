@@ -8,6 +8,9 @@
     },
     {
       "path": "./app"
+    },
+    {
+      "path": "./libs/api"
     }
   ]
 }
