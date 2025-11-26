@@ -1,5 +1,6 @@
-import { PgClient } from '@effect/sql-pg';
-import { Config, Redacted } from 'effect';
+import { PgClient, PgMigrator } from '@effect/sql-pg';
+import { Config, Layer, Redacted } from 'effect';
+import { fileURLToPath } from 'node:url';
 
 /**
  * PostgreSQL database configuration layer
@@ -22,3 +23,14 @@ export const DatabaseLive = PgClient.layerConfig({
     Config.withDefault(Redacted.make('postgres'))
   ),
 });
+
+/**
+ * Database migrations layer
+ *
+ * Runs migrations from the migrations folder on startup
+ */
+export const MigratorLive = PgMigrator.layer({
+  loader: PgMigrator.fromFileSystem(
+    fileURLToPath(new URL('migrations', import.meta.url))
+  ),
+}).pipe(Layer.provide(DatabaseLive));
