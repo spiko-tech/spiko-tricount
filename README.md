@@ -115,8 +115,14 @@ npx nx run-many -t lint
 
 ```
 app/          # React frontend application
-server/       # Node.js backend API
+server/       # Node.js backend API (DDD architecture)
+  src/
+    domain/         # Business entities, repository interfaces
+    application/    # Use cases, application services
+    infrastructure/ # Database, repositories, migrations
+    presentation/   # HTTP handlers, API routes
 packages/     # Shared packages
+libs/         # Shared libraries
 ```
 
 ## Useful Commands

@@ -4,7 +4,7 @@ import { Layer } from 'effect';
 import { createServer } from 'node:http';
 
 import { Api } from '@spiko-tricount/api';
-import { DatabaseLive } from '../infrastructure/index.js';
+import { DatabaseLive, MigratorLive } from '../infrastructure/index.js';
 import { HealthApiGroupLive } from './health.js';
 
 /**
@@ -19,6 +19,7 @@ export const ServerLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
   Layer.provide(HttpApiBuilder.middlewareCors()),
   Layer.provide(ApiLive),
   Layer.provide(DatabaseLive),
+  Layer.provide(MigratorLive),
   HttpServer.withLogAddress,
   Layer.provide(NodeHttpServer.layer(createServer, { port: 3000 }))
 );

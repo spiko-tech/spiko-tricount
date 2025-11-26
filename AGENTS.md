@@ -21,5 +21,14 @@
 - **Naming**: PascalCase for classes/components/schemas, camelCase for functions/variables
 - **Components**: Function components with named exports. Use Tailwind for styling
 - **Effect**: Use Effect-TS patterns - Schema.Class for data types, Layer for DI, Effect for async ops
-- **Errors**: Use Effect's error handling. Define errors as Schema classes when needed
+- **Errors**: Always use `Schema.TaggedError` for custom errors
 - **Tests**: Vitest with `describe`/`it` blocks. Place specs alongside source as `*.spec.ts`
+
+## Server Architecture (DDD)
+
+The server follows Domain-Driven Design with 4 layers:
+
+- **domain/**: Business entities (Schema.Class), repository interfaces (Context.Tag), domain errors (Schema.TaggedError)
+- **application/**: Use cases and application services
+- **infrastructure/**: Database, repositories implementations, external services, migrations
+- **presentation/**: HTTP handlers, API routes, server configuration
