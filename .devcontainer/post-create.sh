@@ -16,20 +16,32 @@ echo ""
 echo "Installing dependencies..."
 pnpm install
 
-# Wait for PostgreSQL to be ready (it should already be ready due to healthcheck)
+# Wait for PostgreSQL to be ready with timeout
 echo ""
 echo "Waiting for PostgreSQL to be ready..."
-until pg_isready -h postgres -U postgres -q; do
-  echo "  PostgreSQL is not ready yet, waiting..."
+MAX_ATTEMPTS=30
+ATTEMPT=0
+until nc -z postgres 5432 2>/dev/null; do
+  ATTEMPT=$((ATTEMPT + 1))
+  if [ $ATTEMPT -ge $MAX_ATTEMPTS ]; then
+    echo "  Warning: PostgreSQL connection check timed out after ${MAX_ATTEMPTS} attempts"
+    echo "  The database may still be starting up. You can check with: nc -z postgres 5432"
+    break
+  fi
+  echo "  PostgreSQL is not ready yet, waiting... (attempt $ATTEMPT/$MAX_ATTEMPTS)"
   sleep 2
 done
-echo "PostgreSQL is ready!"
+if [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
+  echo "PostgreSQL is ready!"
+fi
 
 # Set DATABASE_HOST environment variable for the server
 # In Codespaces, PostgreSQL runs in a container named 'postgres'
 echo ""
 echo "Configuring environment..."
-echo 'export DATABASE_HOST=postgres' >> ~/.bashrc
+if ! grep -q "DATABASE_HOST=postgres" ~/.bashrc 2>/dev/null; then
+  echo 'export DATABASE_HOST=postgres' >> ~/.bashrc
+fi
 
 # Display welcome message
 echo ""
