@@ -1,5 +1,7 @@
 # Spiko Tricount
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/spiko-tech/spiko-tricount?quickstart=1)
+
 A fullstack expense-sharing application built as a practical case for Spiko's software engineering interviews.
 
 ## Context
@@ -40,13 +42,25 @@ This is an [Nx](https://nx.dev) monorepo containing:
 
 ## Getting Started
 
-### Prerequisites
+### Option 1: GitHub Codespaces (Recommended)
+
+The fastest way to get started is using GitHub Codespaces:
+
+1. Click the "Open in GitHub Codespaces" badge above
+2. Wait for the environment to build (2-3 minutes on first launch)
+3. Once ready, run `pnpm nx run-many -t dev` to start the development servers
+
+Everything is pre-configured: Node.js, pnpm, PostgreSQL, and VS Code extensions.
+
+### Option 2: Local Development
+
+#### Prerequisites
 
 - Node.js LTS (v24.x)
 - pnpm
 - Docker (for PostgreSQL database)
 
-### Database Setup
+#### Database Setup
 
 Start the PostgreSQL database:
 
@@ -68,13 +82,13 @@ To stop the database:
 docker compose down
 ```
 
-### Installation
+#### Installation
 
 ```sh
 pnpm install
 ```
 
-### Development
+#### Development
 
 Run all projects in watch mode:
 
