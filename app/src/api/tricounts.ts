@@ -57,3 +57,15 @@ export async function createTricount(input: CreateTricountInput): Promise<Tricou
     }).pipe(Effect.provide(FetchHttpClient.layer))
   );
 }
+
+export async function deleteTricount(id: string): Promise<boolean> {
+  return Effect.runPromise(
+    Effect.gen(function* () {
+      const client = yield* makeApiClient;
+      const response = yield* client.tricounts.delete({
+        path: { id },
+      });
+      return response.success;
+    }).pipe(Effect.provide(FetchHttpClient.layer))
+  );
+}

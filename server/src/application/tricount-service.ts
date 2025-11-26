@@ -12,6 +12,7 @@ export class TricountService extends Context.Tag('TricountService')<
       name: string;
       description: Option.Option<string>;
     }) => Effect.Effect<Tricount, PersistenceError>;
+    readonly deleteTricount: (id: TricountId) => Effect.Effect<boolean, PersistenceError>;
   }
 >() {}
 
@@ -37,6 +38,8 @@ export const TricountServiceLive = Layer.effect(
 
           return yield* repo.store(tricount);
         }),
+
+      deleteTricount: (id: TricountId) => repo.delete(id),
     };
   })
 );

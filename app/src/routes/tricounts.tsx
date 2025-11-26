@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { fetchTricounts, createTricount } from '../api/tricounts.js';
+import { fetchTricounts, createTricount, deleteTricount } from '../api/tricounts.js';
 
 export const Route = createFileRoute('/tricounts')({
   component: TricountsComponent,
@@ -30,6 +30,19 @@ function TricountsComponent() {
       setDescription('');
     },
   });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteTricount,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tricounts'] });
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    if (window.confirm('Are you sure you want to delete this tricount?')) {
+      deleteMutation.mutate(id);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,6 +114,11 @@ function TricountsComponent() {
             {createMutation.error instanceof Error ? createMutation.error.message : 'Failed to create tricount'}
           </div>
         )}
+        {deleteMutation.error && (
+          <div className="mb-4 rounded-md bg-red-50 p-4 text-red-700">
+            {deleteMutation.error instanceof Error ? deleteMutation.error.message : 'Failed to delete tricount'}
+          </div>
+        )}
 
         <div className="rounded-lg bg-white shadow">
           <div className="border-b border-gray-200 px-6 py-4">
@@ -123,6 +141,13 @@ function TricountsComponent() {
                         Created: {new Date(tricount.createdAt).toLocaleDateString()}
                       </p>
                     </div>
+                    <button
+                      onClick={() => handleDelete(tricount.id)}
+                      disabled={deleteMutation.isPending}
+                      className="rounded-md bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+                    </button>
                   </div>
                 </li>
               ))}

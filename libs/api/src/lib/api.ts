@@ -28,6 +28,10 @@ export const CreateTricountRequest = Schema.Struct({
   description: Schema.OptionFromNullOr(Schema.String),
 });
 
+export const DeleteTricountResponse = Schema.Struct({
+  success: Schema.Boolean,
+});
+
 export const TricountApiGroup = HttpApiGroup.make('tricounts')
   .add(
     HttpApiEndpoint.get('list', '/tricounts')
@@ -38,6 +42,12 @@ export const TricountApiGroup = HttpApiGroup.make('tricounts')
     HttpApiEndpoint.post('create', '/tricounts')
       .setPayload(CreateTricountRequest)
       .addSuccess(TricountResponse)
+      .addError(HttpApiError.InternalServerError)
+  )
+  .add(
+    HttpApiEndpoint.del('delete', '/tricounts/:id')
+      .setPath(Schema.Struct({ id: Schema.String }))
+      .addSuccess(DeleteTricountResponse)
       .addError(HttpApiError.InternalServerError)
   );
 
