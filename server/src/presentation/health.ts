@@ -8,9 +8,12 @@ export const HealthApiGroupLive = HttpApiBuilder.group(
   'health',
   (handlers) =>
     handlers.handle('check', () =>
-      Effect.succeed({
-        status: 'ok' as const,
-        timestamp: DateTime.unsafeNow(),
+      Effect.gen(function* () {
+        const now = yield* DateTime.now;
+        return {
+          status: 'ok' as const,
+          timestamp: now,
+        };
       })
     )
 );
