@@ -16,6 +16,10 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@spiko-tricount/source"]
+    "customConditions": ["@spiko-tricount/source"],
+    "paths": {
+      "@spiko-tricount/api": ["libs/api/src/index.ts"]
+    },
+    "baseUrl": "."
   }
 }
