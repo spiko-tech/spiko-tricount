@@ -9,8 +9,8 @@ export interface Tricount {
   id: TricountId;
   name: string;
   description: string | null;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: DateTime.Utc;
+  updatedAt: DateTime.Utc;
 }
 
 export interface CreateTricountInput {
@@ -23,8 +23,8 @@ function toTricount(response: TricountResponse): Tricount {
     id: response.id,
     name: response.name,
     description: Option.getOrNull(response.description),
-    createdAt: DateTime.toDateUtc(response.createdAt).toISOString(),
-    updatedAt: DateTime.toDateUtc(response.updatedAt).toISOString(),
+    createdAt: response.createdAt,
+    updatedAt: response.updatedAt,
   };
 }
 
