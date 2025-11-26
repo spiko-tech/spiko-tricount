@@ -6,7 +6,7 @@ import { Schema } from 'effect';
  * Represents an expense-sharing group where users can track shared expenses
  */
 export class Tricount extends Schema.Class<Tricount>('Tricount')({
-  id: Schema.String,
+  id: Schema.UUID,
   name: Schema.String,
   description: Schema.optionalWith(Schema.String, { as: 'Option' }),
   createdAt: Schema.DateTimeUtc,
