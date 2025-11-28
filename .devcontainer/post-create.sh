@@ -11,6 +11,11 @@ echo "Installing pnpm..."
 corepack enable
 corepack install
 
+# Install OpenCode
+echo ""
+echo "Installing OpenCode..."
+curl -fsSL https://opencode.ai/install | bash
+
 # Install dependencies
 echo ""
 echo "Installing dependencies..."
