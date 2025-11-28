@@ -1,0 +1,14 @@
+{
+  "pgsql.connections": [
+    {
+      "profileName": "spiko-tricount-local",
+      "host": "localhost",
+      "port": 5432,
+      "database": "spiko_tricount",
+      "user": "postgres",
+      "password": "postgres",
+      "authenticationType": "SqlLogin",
+      "emptyPasswordInput": false
+    }
+  ]
+}
