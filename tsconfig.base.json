@@ -21,6 +21,7 @@
       "@spiko-tricount/api": ["libs/api/src/index.ts"],
       "@spiko-tricount/primitives": ["libs/primitives/src/index.ts"]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "plugins": [{ "name": "@effect/language-service" }]
   }
 }
