@@ -5,13 +5,13 @@
   "dependencies": {
     "@effect/platform": "^0.93.6",
     "@spiko-tricount/primitives": "workspace:*",
-    "@tanstack/db": "^0.5.6",
-    "@tanstack/query-db-collection": "^1.0.5",
-    "@tanstack/react-db": "^0.1.50",
-    "@tanstack/react-form": "^1.26.0",
-    "@tanstack/react-query": "^5.90.11",
-    "@tanstack/react-router": "^1.139.6",
-    "@tanstack/router-plugin": "^1.139.6",
+    "@tanstack/db": "^0.5.11",
+    "@tanstack/query-db-collection": "^1.0.6",
+    "@tanstack/react-db": "^0.1.55",
+    "@tanstack/react-form": "^1.27.2",
+    "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-router": "^1.141.0",
+    "@tanstack/router-plugin": "^1.141.0",
     "effect": "^3.19.11"
   }
 }
