@@ -12,7 +12,7 @@ function HomeComponent() {
         <p className="mt-4 text-lg text-gray-600">Share expenses with friends and settle debts with EUTBL tokens</p>
         <Link
           to="/tricounts"
-          className="mt-6 inline-block rounded-md bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="mt-6 inline-block rounded-md bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           View Tricounts
         </Link>

@@ -29,7 +29,7 @@ export function CreateTricountForm() {
   });
 
   return (
-    <div className="mb-8 rounded-lg bg-white p-6 shadow">
+    <div className="mb-8 rounded-lg bg-white p-6 shadow-sm">
       <h2 className="mb-4 text-xl font-semibold text-gray-800">Create New Tricount</h2>
       <form
         onSubmit={(e) => {
@@ -57,7 +57,7 @@ export function CreateTricountForm() {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-xs focus:border-blue-500 focus:outline-hidden focus:ring-1 focus:ring-blue-500"
                 placeholder="Enter tricount name"
               />
               {field.state.meta.isTouched && !field.state.meta.isValid && (
@@ -78,7 +78,7 @@ export function CreateTricountForm() {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-xs focus:border-blue-500 focus:outline-hidden focus:ring-1 focus:ring-blue-500"
                 placeholder="Enter description (optional)"
                 rows={3}
               />
@@ -90,7 +90,7 @@ export function CreateTricountForm() {
             <button
               type="submit"
               disabled={!canSubmit}
-              className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Create Tricount
             </button>

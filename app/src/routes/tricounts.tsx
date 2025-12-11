@@ -24,7 +24,7 @@ function TricountsPage() {
 
         <CreateTricountForm />
 
-        <div className="rounded-lg bg-white shadow">
+        <div className="rounded-lg bg-white shadow-sm">
           <div className="border-b border-gray-200 px-6 py-4">
             <h2 className="text-xl font-semibold text-gray-800">Your Tricounts</h2>
           </div>
@@ -67,7 +67,7 @@ function TricountsList() {
             </div>
             <button
               onClick={() => handleDelete(tricount.id)}
-              className="rounded-md bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              className="rounded-md bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
             >
               Delete
             </button>
