@@ -56,9 +56,9 @@
     "vitest": "4.0.9"
   },
   "dependencies": {
-    "@effect/platform": "^0.93.3",
-    "@effect/platform-node": "^0.101.1",
-    "effect": "^3.19.6",
+    "@effect/platform": "^0.93.6",
+    "@effect/platform-node": "^0.103.0",
+    "effect": "^3.19.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsx": "^4.20.6"
