@@ -27,6 +27,9 @@ importers:
         specifier: ^4.20.6
         version: 4.20.6
     devDependencies:
+      '@effect/language-service':
+        specifier: ^0.62.1
+        version: 0.62.1
       '@eslint/js':
         specifier: ^9.8.0
         version: 9.39.1
@@ -903,6 +906,10 @@ packages:
         optional: true
       lmdb:
         optional: true
+
+  '@effect/language-service@0.62.1':
+    resolution: {integrity: sha512-K78mPtNpHqArLTXpYNASoqiqYUmPASrdnntSBVInMYmI39hyLkmTqk78bclzkfsIvJZBBS4vvsuWx7Etmz8rkA==}
+    hasBin: true
 
   '@effect/platform-node-shared@0.56.0':
     resolution: {integrity: sha512-0RawLcUCLHVGs4ch1nY26P4xM+U6R03ZR02MgNHMsL0slh8YYlal5PnwD/852rJ59O9prQX3Kq8zs+cGVoLAJw==}
@@ -7642,6 +7649,8 @@ snapshots:
       '@effect/platform': 0.93.6(effect@3.19.11)
       effect: 3.19.11
       uuid: 11.1.0
+
+  '@effect/language-service@0.62.1': {}
 
   '@effect/platform-node-shared@0.56.0(@effect/cluster@0.53.5(@effect/platform@0.93.6(effect@3.19.11))(@effect/rpc@0.72.2(@effect/platform@0.93.6(effect@3.19.11))(effect@3.19.11))(@effect/sql@0.48.6(@effect/experimental@0.57.4(@effect/platform@0.93.6(effect@3.19.11))(effect@3.19.11))(@effect/platform@0.93.6(effect@3.19.11))(effect@3.19.11))(@effect/workflow@0.13.0(@effect/experimental@0.57.4(@effect/platform@0.93.6(effect@3.19.11))(effect@3.19.11))(@effect/platform@0.93.6(effect@3.19.11))(@effect/rpc@0.72.2(@effect/platform@0.93.6(effect@3.19.11))(effect@3.19.11))(effect@3.19.11))(effect@3.19.11))(@effect/platform@0.93.6(effect@3.19.11))(@effect/rpc@0.72.2(@effect/platform@0.93.6(effect@3.19.11))(effect@3.19.11))(@effect/sql@0.48.6(@effect/experimental@0.57.4(@effect/platform@0.93.6(effect@3.19.11))(effect@3.19.11))(@effect/platform@0.93.6(effect@3.19.11))(effect@3.19.11))(effect@3.19.11)':
     dependencies:
