@@ -1,6 +1,7 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import path from 'path';
 
@@ -15,7 +16,8 @@ export default defineConfig(() => ({
     port: 4200,
     host: 'localhost',
   },
-  plugins: [tanstackRouter({ target: 'react', autoCodeSplitting: true }), react()],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  plugins: [tailwindcss() as any, tanstackRouter({ target: 'react', autoCodeSplitting: true }), react()],
   resolve: {
     alias: {
       '@spiko-tricount/api': path.resolve(import.meta.dirname, '../libs/api/src/index.ts'),
