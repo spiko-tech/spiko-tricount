@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@effect/platform": "^0.93.6",
+    "@effect/platform": "^0.94.0",
     "@spiko-tricount/primitives": "workspace:*",
     "@tanstack/db": "^0.5.11",
     "@tanstack/query-db-collection": "^1.0.6",
@@ -12,6 +12,6 @@
     "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-router": "^1.141.0",
     "@tanstack/router-plugin": "^1.141.0",
-    "effect": "^3.19.11"
+    "effect": "^3.19.13"
   }
 }
