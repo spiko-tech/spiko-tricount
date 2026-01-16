@@ -1,8 +1,9 @@
 packages:
-  - packages/*
-  - server
-  - app
-  - libs/*
+  - 'packages/*'
+  - 'server'
+  - 'app'
+  - 'libs/*'
+  - 'mobile-app'
 autoInstallPeers: true
 onlyBuiltDependencies:
-  - esbuild
+  - 'esbuild'
