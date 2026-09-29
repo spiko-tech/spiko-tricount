@@ -107,6 +107,47 @@ Run a specific project:
 pnpm nx serve server
 ```
 
+### Seed data
+
+Populate the database with three users (Alice, Bob, Carol), one tricount, a few expenses and a settlement:
+
+```sh
+pnpm nx seed @spiko-tricount/server
+```
+
+The command prints the user ids to use in the `x-user-id` header.
+
+## API
+
+The backend exposes a JSON API on http://localhost:3000. Interactive documentation (Swagger UI) is served at http://localhost:3000/docs.
+
+### Identity
+
+There is no password based authentication. A user is created with `POST /users` and "signs in" with `POST /users/sign-in` (email only). Every other endpoint identifies the caller through the `x-user-id` header containing the user's id. A missing or unknown id yields `401 Unauthorized`. Signing out is a client concern: drop the header.
+
+### Endpoints
+
+| Method | Path                                 | Description                                                     |
+| ------ | ------------------------------------ | --------------------------------------------------------------- |
+| GET    | `/health`                            | Health check                                                    |
+| POST   | `/users`                             | Sign up `{ email, name }` (409 if the email is taken)           |
+| POST   | `/users/sign-in`                     | Sign in `{ email }` (404 if unknown)                            |
+| GET    | `/users/me`                          | Current user                                                    |
+| GET    | `/users`                             | All users                                                       |
+| GET    | `/tricounts`                         | Tricounts the caller is a member of                             |
+| POST   | `/tricounts`                         | Create `{ name, description }`, caller becomes owner            |
+| GET    | `/tricounts/:id`                     | Tricount with its members                                       |
+| DELETE | `/tricounts/:id`                     | Owner only (403 otherwise)                                      |
+| POST   | `/tricounts/:id/members`             | Invite `{ email }` of an existing user (404 / 409)              |
+| GET    | `/tricounts/:id/expenses`            | Expenses, newest first                                          |
+| POST   | `/tricounts/:id/expenses`            | Create `{ title, amount, paidBy, participants, date? }`         |
+| DELETE | `/tricounts/:id/expenses/:expenseId` | Delete an expense                                               |
+| GET    | `/tricounts/:id/balances`            | Per member `{ paid, owed, balance }` and simplified `debts`     |
+| GET    | `/tricounts/:id/settlements`         | Recorded EUTBL settlements                                      |
+| POST   | `/tricounts/:id/settlements`         | Settle `{ toUserId, amount }` from the caller to another member |
+
+Amounts are integers in cents. Expenses are split equally between `participants`; remainder cents go to the first participants sorted by id. A settlement counts as a payment from the caller to the recipient and offsets the balances.
+
 ### Build
 
 ```sh

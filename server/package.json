@@ -33,12 +33,20 @@
         "dependsOn": [
           "build"
         ]
+      },
+      "seed": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "tsx server/src/seed.ts",
+          "cwd": "{workspaceRoot}"
+        }
       }
     }
   },
   "dependencies": {
     "@effect/sql": "^0.49.0",
     "@effect/sql-pg": "^0.50.0",
-    "@spiko-tricount/api": "workspace:*"
+    "@spiko-tricount/api": "workspace:*",
+    "@spiko-tricount/primitives": "workspace:*"
   }
 }

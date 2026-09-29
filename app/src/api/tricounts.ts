@@ -1,9 +1,22 @@
-import { HttpApiClient, FetchHttpClient } from '@effect/platform';
+import { HttpApiClient, HttpClient, HttpClientRequest, FetchHttpClient } from '@effect/platform';
 import { DateTime, Effect, Option } from 'effect';
-import { Api, TricountResponse } from '@spiko-tricount/api';
+import { Api, CURRENT_USER_HEADER, TricountResponse } from '@spiko-tricount/api';
 import { TricountId } from '@spiko-tricount/primitives';
 
 const API_BASE_URL = 'http://localhost:3000';
+const CURRENT_USER_STORAGE_KEY = 'spiko-tricount:userId';
+
+export function getCurrentUserId(): string | null {
+  return localStorage.getItem(CURRENT_USER_STORAGE_KEY);
+}
+
+export function setCurrentUserId(userId: string | null): void {
+  if (userId === null) {
+    localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
+  } else {
+    localStorage.setItem(CURRENT_USER_STORAGE_KEY, userId);
+  }
+}
 
 export interface Tricount {
   id: TricountId;
@@ -31,6 +44,10 @@ function toTricount(response: TricountResponse): Tricount {
 const makeApiClient = Effect.gen(function* () {
   return yield* HttpApiClient.make(Api, {
     baseUrl: API_BASE_URL,
+    transformClient: HttpClient.mapRequest((request) => {
+      const userId = getCurrentUserId();
+      return userId === null ? request : HttpClientRequest.setHeader(request, CURRENT_USER_HEADER, userId);
+    }),
   });
 });
 

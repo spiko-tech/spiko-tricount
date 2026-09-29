@@ -228,6 +228,9 @@ importers:
       '@spiko-tricount/api':
         specifier: workspace:*
         version: link:../libs/api
+      '@spiko-tricount/primitives':
+        specifier: workspace:*
+        version: link:../libs/primitives
 
 packages:
 
